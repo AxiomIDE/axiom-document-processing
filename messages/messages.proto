@@ -18,3 +18,41 @@
 syntax = "proto3";
 
 package axiom_document_processing;
+
+// A PDF document to be parsed.
+message PDFInput {
+  // The raw PDF file bytes.
+  bytes pdf_bytes = 1;
+  // The original filename, used for provenance tracking.
+  string filename = 2;
+}
+
+// Plain text extracted from a parsed document.
+message DocumentText {
+  // The full extracted text.
+  string text = 1;
+  // The original filename.
+  string filename = 2;
+  // The number of pages in the source document.
+  int32 page_count = 3;
+}
+
+// A request to split text into overlapping chunks.
+message ChunkRequest {
+  // The text to split.
+  string text = 1;
+  // The maximum number of characters per chunk.
+  int32 chunk_size = 2;
+  // The number of characters to overlap between consecutive chunks.
+  int32 overlap = 3;
+  // Optional source filename for provenance.
+  string source_filename = 4;
+}
+
+// A document split into overlapping text chunks.
+message ChunkedDocument {
+  // The individual text chunks.
+  repeated string chunks = 1;
+  // The source filename these chunks came from.
+  string source_filename = 2;
+}

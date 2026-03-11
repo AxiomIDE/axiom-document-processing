@@ -1,12 +1,15 @@
 name: axiom-document-processing
 version: 0.1.0
 language: python
-
-# nodes:
-#   - name: MyNode
-#     input: MyInput
-#     output: MyOutput
-#     # required_secrets lists the secret names this node reads via axiom.Secrets.
-#     # These are validated during publish and shown in the marketplace.
-#     # required_secrets:
-#     #   - MY_API_KEY
+description: Document processing nodes for parsing PDFs and splitting text into overlapping chunks.
+author: Axiom
+license: MIT
+nodes:
+    - name: PDFParser
+      input: PDFInput
+      output: DocumentText
+      description: Extracts all plain text from a PDF document provided as raw bytes.
+    - name: TextChunker
+      input: ChunkRequest
+      output: ChunkedDocument
+      description: Splits a text string into overlapping fixed-size chunks suitable for embedding.
