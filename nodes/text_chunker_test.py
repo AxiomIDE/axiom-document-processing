@@ -1,4 +1,4 @@
-from gen.messages_pb2 import ChunkRequest, ChunkedDocument
+from gen.messages_pb2 import ChunkRequest, ChunkItem
 from nodes.text_chunker import text_chunker
 
 
@@ -20,11 +20,14 @@ def test_text_chunker_basic_split():
     secrets = _NoOpSecrets()
     text = "a" * 2500
     req = ChunkRequest(text=text, chunk_size=1000, overlap=200, source_filename="doc.pdf")
-    result = text_chunker(log, secrets, req)
-    assert isinstance(result, ChunkedDocument)
-    assert result.source_filename == "doc.pdf"
-    assert len(result.chunks) > 1
-    assert all(len(c) <= 1000 for c in result.chunks)
+    results = list(text_chunker(log, secrets, iter([req])))
+    assert len(results) > 1
+    for i, item in enumerate(results):
+        assert isinstance(item, ChunkItem)
+        assert item.source_filename == "doc.pdf"
+        assert item.chunk_index == i
+        assert item.total_chunks == len(results)
+        assert len(item.text) <= 1000
 
 
 def test_text_chunker_uses_defaults_when_zero():
@@ -32,5 +35,7 @@ def test_text_chunker_uses_defaults_when_zero():
     secrets = _NoOpSecrets()
     text = "b" * 3000
     req = ChunkRequest(text=text, chunk_size=0, overlap=0, source_filename="")
-    result = text_chunker(log, secrets, req)
-    assert len(result.chunks) > 1
+    results = list(text_chunker(log, secrets, iter([req])))
+    assert len(results) > 1
+    for item in results:
+        assert isinstance(item, ChunkItem)

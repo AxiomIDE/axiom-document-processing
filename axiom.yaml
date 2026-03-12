@@ -11,5 +11,6 @@ nodes:
       description: Extracts all plain text from a PDF document provided as raw bytes.
     - name: TextChunker
       input: ChunkRequest
-      output: ChunkedDocument
-      description: Splits a text string into overlapping fixed-size chunks suitable for embedding.
+      output: ChunkItem
+      type: pipeline
+      description: Splits a text string into overlapping fixed-size chunks and streams one ChunkItem per chunk.

@@ -56,3 +56,15 @@ message ChunkedDocument {
   // The source filename these chunks came from.
   string source_filename = 2;
 }
+
+// A single text chunk emitted by the TextChunker pipeline node.
+message ChunkItem {
+  // The chunk text.
+  string text = 1;
+  // The source filename this chunk came from.
+  string source_filename = 2;
+  // Zero-based index of this chunk within the document.
+  int32 chunk_index = 3;
+  // Total number of chunks the document was split into.
+  int32 total_chunks = 4;
+}
