@@ -1,5 +1,5 @@
 from gen.messages_pb2 import PDFInput, DocumentText
-from nodes.p_d_f_parser import p_d_f_parser
+from nodes.pdf_parser import pdf_parser
 
 
 class _NoOpLogger:
@@ -15,7 +15,7 @@ class _NoOpSecrets:
         return "", False
 
 
-def test_p_d_f_parser_minimal_pdf():
+def test_pdf_parser_minimal_pdf():
     """Parse a minimal hand-crafted single-page PDF."""
     log = _NoOpLogger()
     secrets = _NoOpSecrets()
@@ -33,7 +33,7 @@ def test_p_d_f_parser_minimal_pdf():
         b"0000000266 00000 n \n0000000360 00000 n \n"
         b"trailer<</Size 6/Root 1 0 R>>\nstartxref\n430\n%%EOF"
     )
-    result = p_d_f_parser(log, secrets, PDFInput(pdf_bytes=pdf_bytes, filename="test.pdf"))
+    result = pdf_parser(log, secrets, PDFInput(pdf_bytes=pdf_bytes, filename="test.pdf"))
     assert isinstance(result, DocumentText)
     assert result.filename == "test.pdf"
     assert result.page_count == 1

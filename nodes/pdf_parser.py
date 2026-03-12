@@ -2,7 +2,7 @@ from gen.messages_pb2 import PDFInput, DocumentText
 from gen.axiom_logger import AxiomLogger, AxiomSecrets
 
 
-def p_d_f_parser(log: AxiomLogger, secrets: AxiomSecrets, input: PDFInput) -> DocumentText:
+def pdf_parser(log: AxiomLogger, secrets: AxiomSecrets, input: PDFInput) -> DocumentText:
     """Extracts all plain text from a PDF document provided as raw bytes.
 
     Uses pypdf to read the PDF and concatenates the extracted text from every
@@ -12,7 +12,7 @@ def p_d_f_parser(log: AxiomLogger, secrets: AxiomSecrets, input: PDFInput) -> Do
     import io
     import pypdf
 
-    log.info("p_d_f_parser: parsing PDF", filename=input.filename, bytes=len(input.pdf_bytes))
+    log.info("pdf_parser: parsing PDF", filename=input.filename, bytes=len(input.pdf_bytes))
 
     reader = pypdf.PdfReader(io.BytesIO(input.pdf_bytes))
     page_count = len(reader.pages)
@@ -21,8 +21,8 @@ def p_d_f_parser(log: AxiomLogger, secrets: AxiomSecrets, input: PDFInput) -> Do
     for i, page in enumerate(reader.pages):
         text = page.extract_text() or ""
         pages.append(text)
-        log.debug("p_d_f_parser: extracted page", page=i + 1, chars=len(text))
+        log.debug("pdf_parser: extracted page", page=i + 1, chars=len(text))
 
     full_text = "\n\n".join(pages).strip()
-    log.info("p_d_f_parser: done", pages=page_count, total_chars=len(full_text))
+    log.info("pdf_parser: done", pages=page_count, total_chars=len(full_text))
     return DocumentText(text=full_text, filename=input.filename, page_count=page_count)
