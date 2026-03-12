@@ -5,6 +5,10 @@ description: Document processing nodes for parsing PDFs and splitting text into 
 author: Axiom
 license: MIT
 nodes:
+    - name: PDFDownloader
+      input: DownloadRequest
+      output: PDFInput
+      description: Downloads a PDF from a URL and returns the raw bytes ready for parsing.
     - name: PDFParser
       input: PDFInput
       output: DocumentText

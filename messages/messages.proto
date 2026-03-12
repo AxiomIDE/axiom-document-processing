@@ -27,6 +27,14 @@ message PDFInput {
   string filename = 2;
 }
 
+// A request to download a PDF from a URL.
+message DownloadRequest {
+  // The URL of the PDF to download.
+  string url = 1;
+  // Optional filename for provenance tracking. Derived from the URL when absent.
+  optional string filename = 2;
+}
+
 // Plain text extracted from a parsed document.
 message DocumentText {
   // The full extracted text.
