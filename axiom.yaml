@@ -1,4 +1,4 @@
-name: christian/axiom-document-processing
+name: axiom-official/axiom-document-processing
 version: 0.1.0
 language: python
 description: Document processing nodes for parsing PDFs and splitting text into overlapping chunks.
